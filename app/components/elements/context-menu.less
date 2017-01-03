@@ -1,0 +1,28 @@
+.context-menu {
+  min-width: 128px;
+  min-height: 20px;
+  position: absolute;
+  background-color: #6c6e84;
+  max-width: 160px;
+  z-index: 999;
+  transform: translate3d(112px, 13px, 0);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .56);
+  ul {
+    display: block;
+    text-align: center;
+  }
+
+  li {
+    display: inline-block;
+    border-bottom: 1px solid #54545d;
+    padding: .25em;
+    width: 100%;
+    &:hover {
+      cursor: pointer;
+      background-color: #898ba5;
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}

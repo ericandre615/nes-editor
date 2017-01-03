@@ -1,0 +1,26 @@
+; ./example/example.asm
+LoadSpritesLoop                  = $C059
+LoadPalettes                     = $C03D
+LatchController                  = $C07B
+Forever                          = $C06E
+palette                          = $E000
+ReadLeftDone                     = $C0DF
+LoadPalettesLoop                 = $C04C
+ReadUp                           = $C0AF
+ReadBDone                        = $C0A5
+ReadDown                         = $C0BF
+ReadRightDone                    = $C0EF
+ReadDownDone                     = $C0CF
+LoadSprites                      = $C057
+ReadA                            = $C085
+ReadB                            = $C095
+vblankwait1                      = $C014
+ReadUpDone                       = $C0BF
+vblankwait2                      = $C038
+clrmem                           = $C019
+RESET                            = $C000
+sprites                          = $E020
+ReadADone                        = $C095
+ReadLeft                         = $C0CF
+NMI                              = $C071
+ReadRight                        = $C0DF

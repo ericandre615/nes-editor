@@ -1,0 +1,36 @@
+.container {
+  width: 100%;
+  max-width: 1024px;
+  margin:0 auto;
+  background-color: #eaeaea;
+}
+
+#layout {
+  color: white;
+  background-color: #313033;
+}
+
+.ui-menu-bar {
+  background-color: #59556b;
+  padding: .25em;
+  text-align: center;
+}
+
+.draggable {
+    &:hover {
+      cursor: move;
+    }
+  }
+
+.ui-container {
+  position: relative;
+  background-color: #818184;
+  width: 128px;
+  padding: 2em .75em .75em .75em;
+  .ui-menu-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}

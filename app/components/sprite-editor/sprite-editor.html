@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    #sprite-container {
+      position: relative;
+      top: 0;
+      left: 0;
+    }
+
+    #sprite-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #sprite-editor {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .sprite-pixel {
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+    }
+
+    #sprite-red {
+      background-color: rgb(255, 0, 0);
+    }
+
+    #sprite-green {
+      background-color: rgb(0, 255, 0);
+    }
+
+    #sprite-blue {
+      background-color: rgb(0, 0, 255);
+    }
+  </style>
+</head>
+<body>
+  <div id="sprite-container">
+    <canvas id="sprite-grid" width=128 height=128 style="z-index:0;"></canvas>
+    <canvas id="sprite-editor" width=128 height=128 style="z-index:100;"></canvas>
+  </div>
+  <div id="drawing-menu">
+    <button id="eraser">Eraser</button>
+    <button id="pencil">Pencil</button>
+  </div>
+  <div id="sprite-palette">
+    <div class="sprite-pixel" id="sprite-red"></div>
+    <div class="sprite-pixel" id="sprite-green"></div>
+    <div class="sprite-pixel" id="sprite-blue"></div>
+  </div>
+  <script src="sprite-editor.js"></script>
+  <script type="text/javascript">
+    // test code
+    const container = document.getElementById('sprite-container');
+    const drawingMenu = document.getElementById('drawing-menu');
+    const spritePalette = document.getElementById('sprite-palette');
+    container.style.width = `${spriteCanvas.width + 8}px`;
+    container.style.height = `${spriteCanvas.height + 8 }px`;
+
+    drawingMenu.addEventListener('click', e => {
+      e.preventDefault();
+
+      if(e.target.id == 'eraser') {
+        pixel.color = 'eraser';
+        return true;
+      }
+
+      if(e.target.id == 'pencil') {
+        pixel.color = 'rgb(255, 0, 0)';
+        return true;
+      }
+
+    }, false);
+
+    spritePalette.addEventListener('click', e => {
+      e.preventDefault();
+      if(e.target.classList.contains('sprite-pixel')) {
+        let color = window.getComputedStyle(e.target).getPropertyValue('background-color');
+        pixel.color = color;
+      }
+    }, false);
+  </script>
+</body>
+</html>
