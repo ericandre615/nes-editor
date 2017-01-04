@@ -25,4 +25,13 @@ eventually be more automated and configurable.
 I'm hoping to have a full editor for NES games. I'd like to make an all-in-one tool
 that will make NES game creation more accessible to others.
 
+## Compiling NESASM3
+Current setup here is for nesasm compile. It is a 6502 compile that has special features sepecific to NES.
+I was using it in this project for Linux. You can also compile it on Mac OS and of course Windows.
+Need to add a post-install script for NPM that can detect OS and fetch the proper verison of nesasm (in the future).
+For now, you can manually git the makefiles for each OS.
+
+- Linux - https://github.com/toastynerd/nesasm
+- Mac OS - https://github.com/cesarparent/NESAsm-3.1-Mac
+
 ### Very early stage
