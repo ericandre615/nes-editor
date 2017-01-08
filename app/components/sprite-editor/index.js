@@ -5,12 +5,15 @@ import SpriteCanvas from './sprite-canvas.jsx';
 import SpriteGrid from './sprite-grid.jsx';
 import SpriteTools from './sprite-tools.jsx';
 import SpritePalette from './sprite-palette.jsx';
+import SpritePreview from './sprite-preview.jsx';
 import { UiMenuButton } from '../ui-menu';
 import { ContextMenu } from '../elements';
 import { Modal } from '../modal';
 import { onDragStart, onDrag, onDragEnd } from '../../lib/ui-functions';
 import { setColor, setSize, setScale } from '../../actions/pixel-actions';
 import { savePixelData, undoCanvas, redoCanvas } from '../../actions/canvas-actions';
+import { saveSpriteData } from '../../actions/sprite-actions';
+import { savePaletteData } from '../../actions/palette-actions';
 import { setMouseCoords } from '../../actions/mouse-actions';
 import contextMenuItems from './sprite-context-menu';
 
@@ -59,7 +62,7 @@ const SpriteEditor = React.createClass({
           <h1 className="sprite-header ui-menu-bar draggable"
             style={{ width: `${ canvasOptions.width }px`  }}
           >
-            Sprite
+            { this.props.sprite.name }
             <UiMenuButton onClick={ this.openContextMenu } />
           </h1>
           <div id="sprite-container"
@@ -91,6 +94,12 @@ const SpriteEditor = React.createClass({
             <Modal /> :
             null
         }
+        <SpritePreview
+          pixel={ this.props.pixel }
+          dataURL={ this.props.workingCanvas.dataURL }
+          width={ canvasOptions.width }
+          height={ canvasOptions.height }
+        />
       </section>
     );
   }
@@ -100,7 +109,9 @@ const mapStateToProps = (state) => {
   return {
     pixel: state.pixel,
     workingCanvas: state.workingCanvas.present,
-    mouse: state.mouse
+    mouse: state.mouse,
+    sprite: state.sprite,
+    palettes: state.palettes
   }
 };
 
@@ -112,6 +123,8 @@ const mapDispatchToProps = (dispatch) => {
     savePixelData: (pixel, dataURL) => dispatch(savePixelData(pixel, dataURL)),
     undoCanvas: () => dispatch(UndoActionCreators.undo()),
     redoCanvas: () => dispatch(UndoActionCreators.redo()),
+    saveSpriteData: (sprite) => dispatch(saveSpriteData(sprite)),
+    savePaletteData: (id, palette) => dispatch(savePaletteData(id, palette)),
     setMouseCoords: mouse => dispatch(setMouseCoords(mouse))
   };
 };

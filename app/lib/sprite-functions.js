@@ -184,6 +184,69 @@ const scaleCanvas = (canvas, pixel = { width: 8, height: 8, scale: 1 }) => {
   return scaleCanvas;
 };
 
+const defaultPalette = {
+    0: {
+      name: 'white',
+      hex: 0x30,
+      web: '#ffffff',
+      rgb: [255, 255, 255]
+    },
+    1: {
+      name: 'midPinkPurple',
+      hex: 0x20,
+      web: '#e562ff',
+      rgb: [229, 98, 255]
+    },
+    2: {
+      name: 'midOrange',
+      hex: 0x10,
+      web: '#ff8300',
+      rgb: [255, 131, 0]
+    },
+    3: {
+      name: '0FBlack',
+      hex: 0x0F,
+      web: '#000',
+      rgb: [0, 0, 0]
+    }
+  };
+
+const applyPalette = (canvas = document.createElement('canvas'), palette = defaultPalette) => {
+  const ctx = canvas.getContext('2d');
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+  let data = imageData.data;
+  let paletteIndex = 0;
+
+  // iterate by 4 (rgba)
+  for(let i = 0; i < data.length; i += 4) {
+    if(data[i] === 255) {
+      // index color 0
+      paletteIndex = 0;
+    }
+
+    if(data[i + 1] === 255) {
+      paletteIndex = 1;
+    }
+
+    if(data[i + 2] === 255) {
+      paletteIndex = 2;
+    }
+
+    if(data[i + 3] === 0) {
+      // transparent
+      paletteIndex = 3;
+    }
+
+    data[i] = palette[paletteIndex].rgb[0]; // red
+    data[i + 1] = palette[paletteIndex].rgb[1]; // blue
+    data[i + 2] = palette[paletteIndex].rgb[2]; // green
+    data[i + 3] = 255; // alpha
+  }
+
+  return imageData;
+};
+
 module.exports = {
   drawGrid,
   drawPixel,
@@ -197,5 +260,6 @@ module.exports = {
   convertToBitPlane,
   planesToBinary,
   getChrFromCanvas,
-  savePixelInfo
+  savePixelInfo,
+  applyPalette
 }
