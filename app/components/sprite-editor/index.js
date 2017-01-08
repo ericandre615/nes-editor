@@ -5,6 +5,7 @@ import SpriteCanvas from './sprite-canvas.jsx';
 import SpriteGrid from './sprite-grid.jsx';
 import SpriteTools from './sprite-tools.jsx';
 import SpritePalette from './sprite-palette.jsx';
+import SpritePreview from './sprite-preview.jsx';
 import { UiMenuButton } from '../ui-menu';
 import { ContextMenu } from '../elements';
 import { Modal } from '../modal';
@@ -93,6 +94,12 @@ const SpriteEditor = React.createClass({
             <Modal /> :
             null
         }
+        <SpritePreview
+          pixel={ this.props.pixel }
+          dataURL={ this.props.workingCanvas.dataURL }
+          width={ canvasOptions.width }
+          height={ canvasOptions.height }
+        />
       </section>
     );
   }
