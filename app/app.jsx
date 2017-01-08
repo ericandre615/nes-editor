@@ -21,7 +21,9 @@ const reducer = combineReducers(Object.assign({}, reducers, {
 let initialState = {
   pixel: reducers.pixelReducers,
   mouse: reducers.mouseReducers,
-  workingCanvas: reducers.undoableCanvas
+  workingCanvas: reducers.undoableCanvas,
+  sprite: reducers.spriteReducers,
+  palettes: reducers.paletteReducers
 };
 
 // check sessionStorage and hydrate state from server or elsewhere that needs to persist across reloads
@@ -33,6 +35,8 @@ if('sessionStorage' in window) {
       pixel: appStorage.pixel,
       mouse: appStorage.mouse,
       workingCanvas: appStorage.workingCanvas,
+      sprite: appStorage.sprite,
+      palettes: appStorage.palettes,
       routing: appStorage.routing
     };
 
