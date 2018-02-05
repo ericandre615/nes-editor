@@ -1,20 +1,34 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { getSelectedSprite } from '../../selectors/sprite.js';
 import SpriteEditor from '../sprite-editor';
+import TilemapEditor from '../tilemap-editor';
 import NesPalette from '../nes-palette';
 
 import './home.less';
 
-const Home = React.createClass({
+export const Home = React.createClass({
   render() {
+    const { selectedSprite } = this.props;
+
+    console.log('SelectedSprite ', selectedSprite);
+
     return (
       <section id="home">
           <h1>Home Section</h1>
           <p>Lorem ipsum stuff</p>
           <SpriteEditor />
           <NesPalette />
+          <TilemapEditor
+            selectedSprite={ selectedSprite }
+          />
       </section>
     );
   }
 });
 
-export default Home;
+const mapStateToProps = state => ({
+  selectedSprite: getSelectedSprite(state),
+});
+
+export default connect(mapStateToProps)(Home);

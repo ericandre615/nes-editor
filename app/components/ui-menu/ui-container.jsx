@@ -1,23 +1,28 @@
 import React from 'react';
 
-const UiContainer = React.createClass({
-
-  render() {
-    return (
-      <section
-        id={ this.props.id }
-        className="ui-container"
-        data-draggable={ this.props.draggable }
-      >
-          { this.props.contextMenu }
-        <h1 className={`ui-menu-bar ${ (this.props.draggable) ? 'draggable' : ''}`}>
-          { this.props.title }
-          { this.props.uiButton }
-        </h1>
-        { this.props.children }
-      </section>
-    );
+export const UiContainer = (props) => {
+  const { id, draggable, contextMenu, title, uiButton, children } = props;
+  
+  if (title === 'Tilemap Editor') {
+    console.log('Container children ', children);
+    console.log('Children props ', children.props);
   }
-});
+
+  return (
+    <section
+      id={ id }
+      className="ui-container"
+      data-draggable={ draggable }
+      style={{ position: 'relative'  }}
+    >
+        { contextMenu }
+      <h1 className={`ui-menu-bar ${ (draggable) ? 'draggable' : ''}`}>
+        { title }
+        { uiButton }
+      </h1>
+      { children }
+    </section>
+  );
+};
 
 export default UiContainer;

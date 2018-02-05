@@ -1,10 +1,13 @@
-import { SAVE_SPRITE_DATA  } from './action-types';
+import { SAVE_SPRITE_DATA, SELECT_SPRITE  } from './action-types';
 
-export function saveSpriteData(sprite) {
-  return {
-    type: SAVE_SPRITE_DATA,
-    sprite
-  };
-};
+export const saveSpriteData = (sprite) => ({
+  type: SAVE_SPRITE_DATA,
+  sprite,
+});
 
-export default { saveSpriteData };
+export const selectSprite = (sprite) => ({
+  type: SELECT_SPRITE,
+  sprite,
+});
+
+export default { saveSpriteData, selectSprite };
