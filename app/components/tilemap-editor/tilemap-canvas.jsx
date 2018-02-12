@@ -1,24 +1,35 @@
 import React, { Component } from 'react';
 import { tile } from '../../../config';
 import CanvasGrid from '../canvas-grid.jsx';
+import { snapToGrid } from '../../lib/sprite-functions.js';
 
 const [tileSizeX, tileSizeY ] = tile.tileSize;
 
-const drawTileImage = canvas => tile => {
+const flatten = arr => arr.reduce((acc, curr) => acc.concat(
+  (Array.isArray(curr)) ? flatten(curr) : curr
+), []);
+
+const drawTilemap = canvas => (tilemap, tile) => {
   const { width: canvasWidth, height: canvasHeight, ctx } = canvas;
-  const { dataURL, width: tileWidth, height: tileHeight, scale } = tile;
+  const { width: tileWidth, height: tileHeight, scale } = tile;
   const width = tileWidth * scale;
   const height = tileHeight * scale;
   const canvasCtx = ctx || canvas.getContext('2d');
-  
-  console.log('canvas tile w ', width, ' - ', height);
-  console.log('CANVASCTX ', canvasCtx);
-  const img = new Image();
-  img.src = dataURL || '';
-  console.log('DrawTileIMAGE ', img);
+  const flatTilemap = flatten(tilemap);
+
   canvasCtx.clearRect(0, 0, canvasWidth, canvasHeight);
-  canvasCtx.drawImage(img, 0, 0, width, height);
-};
+
+  flatTilemap.forEach(tile => {
+    if (!tile) { return null; }
+
+    const { x, y, sprite } = tile;
+    const img = new Image();
+
+    img.src = tile.sprite.dataURL || '';
+
+    canvasCtx.drawImage(img, x, y, width, height);
+  });
+}
 
 export class TilemapCanvas extends Component {
   constructor(props) {
@@ -60,39 +71,65 @@ export class TilemapCanvas extends Component {
 
   drawTile(e) {
     e.preventDefault();
-    const { selectedSprite } = this.props;
-    console.log('DrawTile ', selectedSprite);
 
-    drawTileImage(this.canvas)({
-      dataURL: selectedSprite.dataURL,
-      width: 16,
-      height: 16,
-      scale: 2,
+    const { selectedSprite, tilemap, updateTilemap } = this.props;
+    const mouse = {
+      x: e.nativeEvent.offsetX,
+      y: e.nativeEvent.offsetY,
+    };
+    const scaled = {
+      width: this.tileSizeX * this.scale,
+      height: this.tileSizeY * this.scale
+    }
+    const { x: snapX, y: snapY } = snapToGrid(mouse, { width: scaled.width, height: scaled.height });
+    const tileIndex = {
+      x: Math.floor(snapX / scaled.width),
+      y: Math.floor(snapY / scaled.height)
+    }
+
+    const tilemapData = tilemap.data.slice();
+
+    tilemapData[tileIndex.y][tileIndex.x] = {
+      x: snapX,
+      y: snapY,
+      sprite: selectedSprite
+    };
+    const updatedTilemap = {
+      name: 'default',
+      data: tilemapData,
+    }
+
+    updateTilemap(updatedTilemap);
+
+    drawTilemap(this.canvas)(updatedTilemap.data, {
+      width: this.tileSizeX,
+      height: this.tileSizeY,
+      scale: this.scale
     });
   }
 
   render() {
     const { width, height, showGrid } = this.props;
-
+    const styles = { position: 'absolute' };
     return (
-      <div style={{ position: 'relative' }}>
-        <CanvasGrid
-          id="tilemap"
-          showGrid={ showGrid }
-          width={ this.width }
-          height={ this.height }
-          pixel={{
-            width: this.tileSizeX * 2,
-            height: this.tileSizeY * 2,
-            scale: this.scale,
-          }}
-        />
+      <div style={ styles }>
         <canvas
           id="tilemap-canvas"
           width={ this.width }
           height={ this.height }
           style={{ zIndex: '201', position: 'absolute' }}
           onMouseDown={ this.drawTile }
+        />
+        <CanvasGrid
+          id="tilemap"
+          showGrid={ showGrid }
+          width={ this.width }
+          height={ this.height }
+          pixel={{
+            width: this.tileSizeX,
+            height: this.tileSizeY,
+            scale: this.scale,
+          }}
         />
       </div>
     );
@@ -104,4 +141,3 @@ TilemapCanvas.defaultProps = {
 };
 
 export default TilemapCanvas;
-

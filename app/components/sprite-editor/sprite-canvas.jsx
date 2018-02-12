@@ -1,5 +1,6 @@
 import React from 'react';
 import { drawPixel } from '../../lib/sprite-functions';
+import CanvasGrid from '../canvas-grid.jsx';
 
 const SpriteCanvas = React.createClass({
   propTypes: {
@@ -39,14 +40,25 @@ const SpriteCanvas = React.createClass({
   },
 
   render() {
+    const { width, height, pixel, showGrid } = this.props;
+
     return (
-      <canvas
-        id="sprite-canvas"
-        width={ this.props.width }
-        height={ this.props.height }
-        style={{ zIndex: "200" }}
-        onMouseDown={this.drawPixelEvent}
-      />
+      <div style={{ position: 'relative' }}>
+        <canvas
+          id="sprite-canvas"
+          width={ this.props.width }
+          height={ this.props.height }
+          style={{ zIndex: "200" }}
+          onMouseDown={this.drawPixelEvent}
+        />
+        <CanvasGrid
+          id="sprite"
+          showGrid={ showGrid }
+          width={ width }
+          height={ height }
+          pixel={ pixel }
+        />
+      </div>
     );
   }
 });

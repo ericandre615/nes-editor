@@ -4,7 +4,7 @@ import TilemapCanvas from './tilemap-canvas.jsx';
 
 export class TilemapEditor extends Component {
   render() {
-    const { selectedSprite } = this.props;
+    const { selectedSprite, tilemap, updateTilemap } = this.props;
 
     return (
       <section id="tilemap-editor">
@@ -12,10 +12,13 @@ export class TilemapEditor extends Component {
           id="tilemap-editor-container"
           title="Tilemap Editor"
           draggable={ true }
+          padding={ false }
         >
           <TilemapCanvas
             showGrid
             scale={ 2 }
+            tilemap={ tilemap }
+            updateTilemap={ updateTilemap }
             selectedSprite={ selectedSprite }
           />
         </UiContainer>

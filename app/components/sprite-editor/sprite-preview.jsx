@@ -36,6 +36,7 @@ const SpritePreview = React.createClass({
         id="sprite-preview-container"
         title="Sprite Preview"
         draggable={ true }
+        padding={ false }
       >
         <div id="preview-container">
           <canvas

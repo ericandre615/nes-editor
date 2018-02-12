@@ -1,4 +1,17 @@
-const drawGrid = (ctx, canvas, pixel = { width: 8, height: 8, scale: 1 }, color = 'rgba(150, 150, 150, 0.75)') => {
+
+export const snapToGrid = ({ x, y }, { width, height }) => {
+  const snapX = Math.floor(x / width) * width;
+  const snapY = Math.floor(y / height) * height;
+
+  return { x: snapX, y: snapY };
+};
+
+const drawGrid = (
+  ctx,
+  canvas,
+  pixel = { width: 8, height: 8, scale: 1 },
+  color = 'rgba(150, 150, 150, 0.75)'
+) => {
   let x = 0;
   let y = 0;
   const pixelWidth = pixel.width * pixel.scale;
@@ -44,16 +57,17 @@ const getMousePos = (canvas, e) => {
 const drawPixel = (ctx, mouse, pixel) => {
   const pixelWidth = pixel.width * pixel.scale;
   const pixelHeight = pixel.width * pixel.scale;
-  const snapX = Math.floor(mouse.x / pixelWidth) * pixelWidth;
-  const snapY = Math.floor(mouse.y / pixelHeight) * pixelHeight;
+  // const snapX = Math.floor(mouse.x / pixelWidth) * pixelWidth;
+  // const snapY = Math.floor(mouse.y / pixelHeight) * pixelHeight;
+  const { x, y } = snapToGrid(mouse, { width: pixelWidth, height: pixelHeight });
   ctx.fillStyle = pixel.color;
   if(pixel.color == 'eraser') {
-    ctx.clearRect(snapX, snapY, pixelWidth, pixelHeight);
+    ctx.clearRect(x, y, pixelWidth, pixelHeight);
   } else {
-    ctx.fillRect(snapX, snapY, pixelWidth, pixelHeight);
+    ctx.fillRect(x, y, pixelWidth, pixelHeight);
   }
 
-  return { x: snapX, y: snapY, pixelWidth, pixelHeight, color: pixel.color };
+  return { x, y: y, pixelWidth, pixelHeight, color: pixel.color };
 };
 
 const savePixelInfo = (pixel = { x: 0, y: 0, w: 0, h: 0, c: 0 }, data = []) => {
@@ -248,6 +262,7 @@ const applyPalette = (canvas = document.createElement('canvas'), palette = defau
 };
 
 module.exports = {
+  snapToGrid,
   drawGrid,
   drawPixel,
   getCanvasData,

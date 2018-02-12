@@ -19,7 +19,7 @@ import contextMenuItems from './sprite-context-menu';
 
 import './sprite-editor.less';
 
-const canvasOptions = { width: 8, height: 8}; 
+const canvasOptions = { width: 8, height: 8};
 
 const SpriteEditor = React.createClass({
   getInitialState() {
@@ -38,7 +38,7 @@ const SpriteEditor = React.createClass({
   },
 
   componentWillMount() {
-    let pixel = this.props.pixel;
+    const { pixel } = this.props;
     Object.assign(canvasOptions, {
       width: 8 * (pixel.width * pixel.scale),
       height: 8 * (pixel.height * pixel.scale)
@@ -56,7 +56,7 @@ const SpriteEditor = React.createClass({
                 onMouseLeave={ this.closeContextMenu }
                 onClick={ this.closeContextMenu }
                 pixel={ this.props.pixel }
-              /> : 
+              /> :
               null
           }
           <h1 className="sprite-header ui-menu-bar draggable"
@@ -71,7 +71,8 @@ const SpriteEditor = React.createClass({
               height: `${ canvasOptions.height }px`
             }}
           >
-            <SpriteCanvas 
+            <SpriteCanvas
+              showGrid={ true }
               width={ canvasOptions.width }
               height={ canvasOptions.height }
               pixel={ this.props.pixel }
@@ -79,11 +80,6 @@ const SpriteEditor = React.createClass({
               workingCanvas={ this.props.workingCanvas }
               undoCanvas={ this.props.undoCanvas }
               redoCanvas={ this.props.redoCanvas }
-            />
-            <SpriteGrid
-              width={ canvasOptions.width }
-              height={ canvasOptions.height }
-              pixel={ this.props.pixel }
             />
           </div>
         </section>

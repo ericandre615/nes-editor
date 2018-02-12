@@ -52,7 +52,6 @@
   ],
 
   "rules": {
-
     "comma-dangle": 1,         // disallow trailing commas in object literals
     "no-cond-assign": 0,          // disallow assignment in conditional expressions
     "no-console": 0,              // disallow use of console (off by default in the node environment)
@@ -226,6 +225,7 @@
     "max-params": 0,      // limits the number of parameters that can be used in the function declaration. (off by default)
     "max-statements": 0,  // specify the maximum number of statement allowed in a function (off by default)
     "no-bitwise": 0,      // disallow use of bitwise operators (off by default)
-    "no-plusplus": 0      // disallow use of unary operators, ++ and -- (off by default)
-  },
+    "no-plusplus": 0,      // disallow use of unary operators, ++ and -- (off by default)
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+  }
 }
