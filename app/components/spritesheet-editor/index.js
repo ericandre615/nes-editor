@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { UiContainer } from '../ui-menu';
-import TilemapCanvas from './tilemap-canvas.jsx';
+import SpritesheetCanvas from './spritesheet-canvas.jsx';
 
-export class TilemapEditor extends Component {
+export class SpritesheetEditor extends Component {
   constructor(props) {
     super(props);
 
@@ -20,24 +20,22 @@ export class TilemapEditor extends Component {
   }
 
   render() {
-    const { selectedSprite, tilemap, updateTilemap } = this.props;
+    const { spritesheet } = this.props;
     const { height } = this.state;
 
     return (
-      <section id="tilemap-editor">
+      <section id="spritesheet-editor">
         <UiContainer
-          id="tilemap-editor-container"
-          title="Tilemap Editor"
+          id="spritesheet-editor-container"
+          title="Spritesheet Editor"
           draggable={ true }
           padding={ false }
           height={ height }
         >
-          <TilemapCanvas
+          <SpritesheetCanvas
             showGrid
-            scale={ 2 }
-            tilemap={ tilemap }
-            updateTilemap={ updateTilemap }
-            selectedSprite={ selectedSprite }
+            scale={ 4 }
+            spritesheet={ spritesheet }
             ref={ this.getHeight }
           />
         </UiContainer>
@@ -46,4 +44,4 @@ export class TilemapEditor extends Component {
   }
 };
 
-export default TilemapEditor;
+export default SpritesheetEditor;

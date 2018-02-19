@@ -1,9 +1,8 @@
 import { ADD_TILEMAP, UPDATE_TILEMAP } from '../actions/action-types';
 import { tilemapActions } from '../actions';
+import { createDataGrid } from '../lib/utils';
 
-
-const rows = Array(30).fill(null);
-const grid = rows.map(() => Array(32).fill(null));
+const grid = createDataGrid(32, 30);
 
 export const initialTilemap = {
   name: 'default',

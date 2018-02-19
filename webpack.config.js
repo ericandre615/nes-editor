@@ -1,4 +1,4 @@
-var webpack = require('webpack');
+const webpack = require('webpack');
 
 module.exports = {
   entry: {
@@ -20,9 +20,11 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react']
-        }
+        options: { babelrc: true },
+        // query: {
+        //   presets: ['es2015', 'react'],
+        //   plugins: ['babel-plugin-transform-object-rest-spread']
+        // }
       },
       {
         test: /\.less$/,

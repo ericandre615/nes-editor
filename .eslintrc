@@ -2,7 +2,11 @@
   // http://eslint.org/docs/rules/
   "parserOptions": {
     "ecmaVersion": 6,
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    }
   },
 
   "ecmaFeatures": {
@@ -12,6 +16,7 @@
     "destructuring": true,
     "modules": true,
     "restParams": true,
+    "experimentalObjectRestSpread": true,
     "spread": true,
     "superInFunctions": false,
     "binaryLiterals": true,                    // enable binary literals

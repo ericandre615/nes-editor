@@ -4,6 +4,7 @@ import mouseReducers from './mouse-reducers';
 import spriteReducers from './sprite-reducers';
 import paletteReducers from './palette-reducers';
 import tilemapReducers from './tilemap-reducers';
+import spritesheetReducers from './spritesheet-reducers';
 
 export default {
   pixel: pixelReducers,
@@ -11,5 +12,6 @@ export default {
   mouse: mouseReducers,
   sprite: spriteReducers,
   palettes: paletteReducers,
-  tilemaps: tilemapReducers
+  tilemaps: tilemapReducers,
+  spritesheets: spritesheetReducers
 };

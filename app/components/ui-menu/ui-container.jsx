@@ -22,6 +22,10 @@ const filterDOMElements = nodes => nodes.filter(node => node instanceof HTMLElem
 const getLargestValue = (nodes, prop = 'width') => nodes
   .map(child => child[prop])
   .reduce((acc, curr) => ((curr > acc) ? curr : acc), '');
+const getHeaderHeight = nodes => nodes
+  .filter(child => (child.nodeName === 'H1'))
+  .map(child => (window.getComputedStyle(child, null).height))
+  .reduce((acc, curr) => parseInt(curr.replace( /\D/g, ''), 10), 0);
 
 export class UiContainer extends Component {
   constructor(props) {
@@ -30,6 +34,7 @@ export class UiContainer extends Component {
     this.state = {
       width: props.width || defaultStyle.width,
       height: props.height || defaultStyle.height,
+      headerHeight: 24
     };
 
     this.getWidth = this.getWidth.bind(this);
@@ -39,19 +44,23 @@ export class UiContainer extends Component {
     const childNodes = Array.from(node.childNodes);
     const flatNodes = filterDOMElements(flattenChildren(childNodes));
     const maxWidth = getLargestValue(flatNodes, 'offsetWidth');
+    const headerHeight = getHeaderHeight(childNodes);
 
     this.setState({
       width: `${maxWidth + padding.right + padding.left}px`,
+      headerHeight: headerHeight + padding.top
     });
   }
 
   render() {
-    const { id, draggable, contextMenu, title, uiButton, children, padding } = this.props;
-    const { width } = this.state
-
+    const { id, draggable, contextMenu, title, uiButton, children, padding, height } = this.props;
+    const { width, headerHeight } = this.state
+    const totalHeight = height + headerHeight;
     const currentStyle = Object.assign({},
       defaultStyle,
-      { width });
+      { width },
+      (height) ? { height: `${totalHeight}px` } : null
+    );
 
     return (
       <section

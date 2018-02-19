@@ -57,8 +57,6 @@ const getMousePos = (canvas, e) => {
 const drawPixel = (ctx, mouse, pixel) => {
   const pixelWidth = pixel.width * pixel.scale;
   const pixelHeight = pixel.width * pixel.scale;
-  // const snapX = Math.floor(mouse.x / pixelWidth) * pixelWidth;
-  // const snapY = Math.floor(mouse.y / pixelHeight) * pixelHeight;
   const { x, y } = snapToGrid(mouse, { width: pixelWidth, height: pixelHeight });
   ctx.fillStyle = pixel.color;
   if(pixel.color == 'eraser') {
@@ -228,7 +226,7 @@ const defaultPalette = {
 const applyPalette = (canvas = document.createElement('canvas'), palette = defaultPalette) => {
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
+  console.log('GETIMAGEDATAFROMCANVAS ', imageData)
   let data = imageData.data;
   let paletteIndex = 0;
 

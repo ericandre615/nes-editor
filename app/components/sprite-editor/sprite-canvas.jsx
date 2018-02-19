@@ -9,12 +9,27 @@ const SpriteCanvas = React.createClass({
     pixel: React.PropTypes.object
   },
 
-  drawPixelEvent(e) {
+  drawPixel() {
+    const { pixel, savePixelData, mouse } = this.props;
+
+    let pixelData = drawPixel(this.ctx, mouse, pixel);
+    let dataURL = this.canvas.toDataURL();
+
+    savePixelData(pixelData, dataURL);
+  },
+
+  handleMouseDown(e) {
     e.preventDefault();
 
-    let pixelData = drawPixel(this.ctx, { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY }, this.props.pixel);
-    let dataURL = this.canvas.toDataURL();
-    this.props.savePixelData(pixelData, dataURL);
+    this.drawPixel();
+  },
+
+  handleMouseMove(e) {
+    const { mouse } = this.props;
+
+    if (mouse.down) {
+      this.drawPixel();
+    }
   },
 
   componentDidMount() {
@@ -49,7 +64,8 @@ const SpriteCanvas = React.createClass({
           width={ this.props.width }
           height={ this.props.height }
           style={{ zIndex: "200" }}
-          onMouseDown={this.drawPixelEvent}
+          onMouseDown={ this.handleMouseDown }
+          onMouseMove={ this.handleMouseMove }
         />
         <CanvasGrid
           id="sprite"

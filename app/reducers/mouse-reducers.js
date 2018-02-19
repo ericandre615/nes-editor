@@ -1,9 +1,10 @@
-import { SET_MOUSE_COORDS  } from '../actions/action-types';
+import { SET_MOUSE_COORDS, TOGGLE_MOUSE_DOWN  } from '../actions/action-types';
 import { mouseActions } from '../actions';
 
 const initialState = {
   x: 0,
-  y: 0
+  y: 0,
+  down: false
 };
 
 export function mouseReducers(state = initialState, action) {
@@ -12,6 +13,10 @@ export function mouseReducers(state = initialState, action) {
       return Object.assign({}, state, {
         x: action.mouse.x,
         y: action.mouse.y
+      });
+    case TOGGLE_MOUSE_DOWN:
+      return Object.assign({}, state, {
+        down: !state.down
       });
     default:
       return state;

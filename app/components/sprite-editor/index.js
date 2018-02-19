@@ -9,7 +9,6 @@ import SpritePreview from './sprite-preview.jsx';
 import { UiMenuButton } from '../ui-menu';
 import { ContextMenu } from '../elements';
 import { Modal } from '../modal';
-import { onDragStart, onDrag, onDragEnd } from '../../lib/ui-functions';
 import { setColor, setSize, setScale } from '../../actions/pixel-actions';
 import { savePixelData, undoCanvas, redoCanvas } from '../../actions/canvas-actions';
 import { saveSpriteData } from '../../actions/sprite-actions';
@@ -46,23 +45,26 @@ const SpriteEditor = React.createClass({
   },
 
   render() {
+    const { mouse, pixel, sprite } = this.props;
+    const { showContextMenu, showSpriteAttrs } = this.state;
+
     return (
       <section id="sprite-editor">
         <section id="sprite-ui-container">
           {
-            (this.state.showContextMenu) ?
+            (showContextMenu) ?
               <ContextMenu
                 menuItems={ contextMenuItems }
                 onMouseLeave={ this.closeContextMenu }
                 onClick={ this.closeContextMenu }
-                pixel={ this.props.pixel }
+                pixel={ pixel }
               /> :
               null
           }
           <h1 className="sprite-header ui-menu-bar draggable"
             style={{ width: `${ canvasOptions.width }px`  }}
           >
-            { this.props.sprite.name }
+            { sprite.name }
             <UiMenuButton onClick={ this.openContextMenu } />
           </h1>
           <div id="sprite-container"
@@ -73,9 +75,10 @@ const SpriteEditor = React.createClass({
           >
             <SpriteCanvas
               showGrid={ true }
+              mouse={ mouse }
               width={ canvasOptions.width }
               height={ canvasOptions.height }
-              pixel={ this.props.pixel }
+              pixel={ pixel }
               savePixelData={ this.props.savePixelData }
               workingCanvas={ this.props.workingCanvas }
               undoCanvas={ this.props.undoCanvas }
@@ -83,15 +86,15 @@ const SpriteEditor = React.createClass({
             />
           </div>
         </section>
-        <SpriteTools pixel={ this.props.pixel } setColor={ this.props.setColor } />
-        <SpritePalette pixel={ this.props.pixel } setColor={ this.props.setColor } />
+        <SpriteTools pixel={ pixel } setColor={ this.props.setColor } />
+        <SpritePalette pixel={ pixel } setColor={ this.props.setColor } />
         {
-          (this.state.showSpriteAttrs) ?
+          (showSpriteAttrs) ?
             <Modal /> :
             null
         }
         <SpritePreview
-          pixel={ this.props.pixel }
+          pixel={ pixel }
           dataURL={ this.props.workingCanvas.dataURL }
           width={ canvasOptions.width }
           height={ canvasOptions.height }

@@ -1,10 +1,12 @@
-import { SET_MOUSE_COORDS } from './action-types';
+import { SET_MOUSE_COORDS, TOGGLE_MOUSE_DOWN } from './action-types';
 
-export function setMouseCoords(mouse = { x: 0, y: 0 }) {
-  return {
-    type: SET_MOUSE_COORDS,
-    mouse
-  };
-};
+export const setMouseCoords = (mouse = { x: 0, y: 0 }) => ({
+  type: SET_MOUSE_COORDS,
+  mouse
+});
 
-export default { setMouseCoords };
+export const toggleMouseDown = () => ({
+  type: TOGGLE_MOUSE_DOWN
+});
+
+export default { setMouseCoords, toggleMouseDown };

@@ -14,10 +14,10 @@ const SpritePreview = React.createClass({
   componentDidUpdate(prevProps, prevState) {
     if(prevProps.dataURL !== this.props.dataURL) {
       const restored = restoreCanvas(this.canvas, this.props.dataURL);
-      //const pixelData = saveCanvas(this.canvas);
-      const convertedPixels = applyPalette(this.canvas);
+      const pixelData = saveCanvas(this.canvas);
+      const convertedPixels = applyPalette(restored.canvas);
 
-      console.log(convertedPixels);
+      console.log('applied palette', convertedPixels);
       this.ctx.putImageData(convertedPixels, 0, 0);
     }
   },

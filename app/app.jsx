@@ -34,7 +34,8 @@ if ('sessionStorage' in window) {
       sprite: appStorage.sprite,
       palettes: appStorage.palettes,
       routing: appStorage.routing,
-      tilemaps: appStorage.tilemaps
+      tilemaps: appStorage.tilemaps,
+      spritesheets: appStorage.spritesheets,
     };
 
     if (appState.workingCanvas.dataURL) {
@@ -57,7 +58,7 @@ const syncStateToStorage = () => {
     sessionStorage.setItem('appState', JSON.stringify(newstate));
     console.log('sync state to storage', newstate);
   } catch(e) {
-    // need to decide how to handle storage quota exceeded. Clearing it won't work because Redux is holding the state.
+    // TODO: need to decide how to handle storage quota exceeded. Clearing it won't work because Redux is holding the state.
     console.log('Storage Error: ', e);
   }
 };
