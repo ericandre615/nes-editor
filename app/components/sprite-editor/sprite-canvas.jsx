@@ -1,5 +1,6 @@
 import React from 'react';
 import { drawPixel } from '../../lib/sprite-functions';
+import CanvasGrid from '../canvas-grid.jsx';
 
 const SpriteCanvas = React.createClass({
   propTypes: {
@@ -8,12 +9,27 @@ const SpriteCanvas = React.createClass({
     pixel: React.PropTypes.object
   },
 
-  drawPixelEvent(e) {
+  drawPixel() {
+    const { pixel, savePixelData, mouse } = this.props;
+
+    let pixelData = drawPixel(this.ctx, mouse, pixel);
+    let dataURL = this.canvas.toDataURL();
+
+    savePixelData(pixelData, dataURL);
+  },
+
+  handleMouseDown(e) {
     e.preventDefault();
 
-    let pixelData = drawPixel(this.ctx, { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY }, this.props.pixel);
-    let dataURL = this.canvas.toDataURL();
-    this.props.savePixelData(pixelData, dataURL);
+    this.drawPixel();
+  },
+
+  handleMouseMove(e) {
+    const { mouse } = this.props;
+
+    if (mouse.down) {
+      this.drawPixel();
+    }
   },
 
   componentDidMount() {
@@ -39,14 +55,26 @@ const SpriteCanvas = React.createClass({
   },
 
   render() {
+    const { width, height, pixel, showGrid } = this.props;
+
     return (
-      <canvas
-        id="sprite-canvas"
-        width={ this.props.width }
-        height={ this.props.height }
-        style={{ zIndex: "200" }}
-        onMouseDown={this.drawPixelEvent}
-      />
+      <div style={{ position: 'relative' }}>
+        <canvas
+          id="sprite-canvas"
+          width={ this.props.width }
+          height={ this.props.height }
+          style={{ zIndex: "200" }}
+          onMouseDown={ this.handleMouseDown }
+          onMouseMove={ this.handleMouseMove }
+        />
+        <CanvasGrid
+          id="sprite"
+          showGrid={ showGrid }
+          width={ width }
+          height={ height }
+          pixel={ pixel }
+        />
+      </div>
     );
   }
 });

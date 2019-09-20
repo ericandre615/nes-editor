@@ -1,17 +1,12 @@
 import React from 'react';
-import TestUtils from 'react/lib/ReactTestUtils';
+import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import DialogButton from '../dialog-button.jsx';
 
-const shallowRenderer = TestUtils.createRenderer();
-let component;
+describe('Dialog Buttons Snapshots', () => {
+  it('Should match default snapshot', () => {
+    const shallowDialogButton = shallow(<DialogButton />);
 
-describe('Dialog Button', () => {
-  beforeEach(() => {
-    shallowRenderer.render(<DialogButton />);
-    component = shallowRenderer.getRenderOutput();
-  });
-
-  it('Should be a ReactElement', () => {
-    expect(TestUtils.isElement(component)).toBe(true);
+    expect(toJson(shallowDialogButton)).toMatchSnapshot();
   });
 });

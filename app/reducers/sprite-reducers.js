@@ -13,9 +13,18 @@ const initialState = {
   }
 };
 
-export function spriteReducers(state = initialState, action) {
+export const spriteReducers = (state = initialState, action) => {
   switch (action.type) {
     case SAVE_SPRITE_DATA:
+      return Object.assign({}, state, action.sprite);
+    default:
+      return state;
+  }
+};
+
+export const selectSprite = (state = {}, action) => {
+  switch (action.type) {
+    case SELECT_SPRITE:
       return Object.assign({}, state, action.sprite);
     default:
       return state;

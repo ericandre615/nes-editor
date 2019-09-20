@@ -3,8 +3,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import logger from 'redux-logger';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import reducers from './reducers';
 import routes from './routes.jsx';
@@ -17,50 +18,47 @@ const mountNode = document.getElementById('app');
 const reducer = combineReducers(Object.assign({}, reducers, {
   routing: routerReducer
 }));
+const middlewares = [logger];
 
-let initialState = {
-  pixel: reducers.pixelReducers,
-  mouse: reducers.mouseReducers,
-  workingCanvas: reducers.undoableCanvas,
-  sprite: reducers.spriteReducers,
-  palettes: reducers.paletteReducers
-};
+let initialState = {};
 
 // check sessionStorage and hydrate state from server or elsewhere that needs to persist across reloads
-if('sessionStorage' in window) {
-  let appStorage = sessionStorage.getItem('appState');
-  if(appStorage) {
-    appStorage = JSON.parse(appStorage);
+if ('sessionStorage' in window) {
+  const appStorage = sessionStorage.getItem('appState');
+  const appState = JSON.parse(appStorage);
+  if (appState) {
     initialState = {
       pixel: appStorage.pixel,
       mouse: appStorage.mouse,
       workingCanvas: appStorage.workingCanvas,
       sprite: appStorage.sprite,
       palettes: appStorage.palettes,
-      routing: appStorage.routing
+      routing: appStorage.routing,
+      tilemaps: appStorage.tilemaps,
+      spritesheets: appStorage.spritesheets,
     };
 
-    if(appStorage.workingCanvas.dataURL) {
+    if (appState.workingCanvas.dataURL) {
       document.addEventListener('DOMContentLoaded', e => {
-        restoreCanvas(document.getElementById('sprite-canvas'), appStorage.workingCanvas.dataURL);
+        restoreCanvas(document.getElementById('sprite-canvas'), appState.workingCanvas.dataURL);
       }, false);
     }
   }
 }
 
-const store = createStore(reducer, initialState);
+const store = createStore(reducer, initialState, applyMiddleware(...middlewares));
 const history = syncHistoryWithStore(browserHistory, store);
 
-//listen for state changes and sync to storage
+// listen for state changes and sync to storage
 const syncStateToStorage = () => {
   const storeState = store.getState();
-  let newstate = Object.assign({}, storeState, { workingCanvas: storeState.workingCanvas.present });
+  const newstate = Object.assign({}, storeState, { workingCanvas: storeState.workingCanvas.present });
 
   try {
     sessionStorage.setItem('appState', JSON.stringify(newstate));
     console.log('sync state to storage', newstate);
   } catch(e) {
-    // need to decide how to handle storage quota exceeded. Clearing it won't work because Redux is holding the state.
+    // TODO: need to decide how to handle storage quota exceeded. Clearing it won't work because Redux is holding the state.
     console.log('Storage Error: ', e);
   }
 };
@@ -69,9 +67,9 @@ store.subscribe(syncStateToStorage);
 
 ReactDOM.render(
   <Provider store={ store }>
-    <Router history={ history } > 
+    <Router history={ history } >
       { routes }
     </Router>
   </Provider>,
-  mountNode  
+  mountNode
 );

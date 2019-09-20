@@ -6,7 +6,7 @@ import NoRoute from './components/noroute.jsx';
 
 export default (
   <Route name="app" path="/" component={ Layout }>
-    <IndexRoute component={Home} />
+    <IndexRoute component={ Home } />
     <Route path="*" component={ NoRoute } />
   </Route>
 );
